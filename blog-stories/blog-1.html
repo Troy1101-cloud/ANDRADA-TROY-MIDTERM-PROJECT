@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How AI Helped Me Through My College Journey | Blog</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('../assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Layout & Headers --- */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 5%;
+}
+.page-header {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.page-header h1 {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    letter-spacing: 4px;
+    color: #fff;
+    line-height: 1.2;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #1a1a1a;
+    margin: 60px 0;
+}
+
+/* --- Editorial Reading Blocks (No Image) --- */
+.reading-block {
+    max-width: 900px;
+    margin: 80px auto;
+}
+.reading-block h2 {
+    font-size: 2.5rem;
+    color: #c9a050;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.reading-block p {
+    font-size: 1.05rem;
+    color: #ddd;
+    text-align: justify;
+}
+
+/* --- Exhibition Rows (Blog Sections with Images) --- */
+.exhibit-row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 120px;
+}
+.exhibit-row.alternate {
+    grid-template-columns: 1.2fr 1fr;
+}
+.exhibit-content h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+}
+.exhibit-content p {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Framed Imagery */
+.exhibit-img img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border: 12px solid #111;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    filter: sepia(30%) grayscale(20%);
+    transition: filter 0.6s ease, transform 0.6s ease;
+}
+.exhibit-row:hover .exhibit-img img {
+    filter: sepia(0%) grayscale(0%);
+    transform: scale(1.02);
+}
+
+/* --- Author Section --- */
+.author {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+}
+.author p strong {
+    color: #c9a050;
+    font-weight: 400;
+}
+
+/* --- Buttons --- */
+.back-btn {
+    display: inline-block;
+    padding: 16px 35px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.back-btn:hover {
+    background: #fff;
+    color: #000;
+}
+.pagination {
+    display: flex; 
+    gap: 20px; 
+    justify-content: center; 
+    align-items: center;
+    margin-top: 40px; 
+    flex-wrap: wrap;
+}
+.page-indicator {
+    color: #c9a050; 
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    padding: 0 15px;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 60px;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 1024px) {
+    .exhibit-row, .exhibit-row.alternate { 
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+    }
+    .exhibit-row.alternate .exhibit-content { order: 2; }
+    .exhibit-row.alternate .exhibit-img { order: 1; }
+    .exhibit-img img { height: 350px; }
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+}
+</style>
+</head>
+
+<body>
+<nav>
+<ul>
+<li class="logo">STORIES WRITTEN IN CODE</li>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../biography/biography-1.html">Biography</a></li>
+<li><a href="../photo-dump/index.html">Photo Dump</a></li>
+<li class="dropdown">
+<span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+<div class="dropdown-content">
+<a href="blog-1.html">Blog 1</a>
+<a href="blog-2.html">Blog 2</a>
+<a href="blog-3.html">Blog 3</a>
+</div>
+</li>
+<li class="dropdown">
+<span class="dropdown-toggle"><a href="#media">Media</a></span>
+<div class="dropdown-content">
+<a href="../my-beats.html">My Beats</a>
+<a href="../my-film-movies.html">My Films</a>
+<a href="../my-film-tv-shows.html">My Shows</a>
+</div>
+</li>
+<li><a href="../dream-places.html">Dream Places</a></li>
+<li><a href="../bucket-list.html">Bucket List</a></li>
+</ul>
+</nav>
+  
+  <div class="container">
+
+    <header class="page-header">
+      <h1>How AI Helped Me Through My College Journey</h1>
+    </header>
+
+    <hr>
+
+    <section class="exhibit-row" id="introduction">
+      <div class="exhibit-img">
+        <img src="../assets/images/AI.jpg" alt="AI chip technology">
+      </div>
+      <div class="exhibit-content">
+        <h2>HOW AI HELPED ME</h2>
+        <p>
+          Honestly speaking, AI changed the game big time for me as an IT student because it completely transformed how I approach learning and problem-solving. 
+          Dati, akala ko AI is purely sci-fi and pang movie lang—robots, advanced machines, and ideas that felt too far from real life. But now, it has become part of my daily academic routine.
+        </p>
+        <p>
+          Ginagamit ko na ito for writing, debugging programs, doing research, and even brainstorming ideas whenever I feel stuck or overwhelmed with schoolwork. 
+          Nakaka-amaze siya dahil sobrang helpful and time-saving, pero at the same time nakakatakot dahil napapaisip ako kung minsan kung nagiging too dependent na ba ako sa paggamit ng AI instead of relying on my own skills.
+        </p>
+      </div>
+    </section>
+
+    <section class="exhibit-row alternate" id="tutor">
+      <div class="exhibit-content">
+        <h2>AI AS MY TUTOR</h2>
+        <p>
+          Dahil ngayong isa na akong IT student, AI helped me a lot—it became my tutor. It helps me understand difficult programming concepts or yung mga tinuturo ng mga prof na hindi ko agad nage-gets. 
+          Kapag may hindi ako maintindihan sa code or logic, I always ask AI, and it explains everything to me using sample programs and step-by-step guides. 
+        </p>
+        <p>
+          Oo, hindi siya laging on point, pero it serves as a starter guide that gives me direction para mas maintindihan ang lessons ng mga professor ko. 
+          Dahil dito, mas nagiging confident ako mag-aral at mas naiintindihan ko na ang mga topic na dati ay nahihirapan ako.
+        </p>
+      </div>
+      <div class="exhibit-img">
+        <img src="../assets/images/AI TUTOR.jpg" alt="AI tutor technology">
+      </div>
+    </section>
+
+    <section class="reading-block">
+      <h2>School and Daily Life Works</h2>
+      <p>
+        AI tools help organize my life by making tasks faster and more efficient. Platforms like Canva use AI to help me create layouts and presentations for projects. 
+        Google Drive provides storage and gives suggestions that improve my documents and presentations. Even on social media, AI is everywhere—YouTube recommends tutorials, 
+        TikTok shares productivity tips, and Instagram entertains me with memes and trends based on my interests. Messaging apps like Messenger also use AI to filter spam and unwanted messages, 
+        making communication safer and more convenient.
+      </p>
+    </section>
+
+    <section class="exhibit-row" id="fear-vs-advantage">
+      <div class="exhibit-img">
+        <img src="../assets/images/fear and advantage.jpg" alt="Fear vs Advantage">
+      </div>
+      <div class="exhibit-content">
+        <h2>Fear vs Advantage</h2>
+        <p>
+          Pero may patuloy na debate na nagsasabing magiging tamad daw ang students dahil sa sobrang pagdepende sa AI. Para sa akin, nakadepende pa rin ito sa tamang paggamit. 
+          AI can be a learning tool that explains difficult concepts, or a shortcut that kills effort when abused. 
+        </p>
+        <p>
+          AI can speed up tasks, but it cannot replace critical thinking, logical reasoning, and problem-solving skills lalo na para sa IT students. In my experience, mas natuto pa nga akong mag-debug dahil ine-explain ng AI ang errors in simple language instead of just giving answers.
+        </p>
+      </div>
+    </section>
+
+    <section class="exhibit-row alternate" id="conclusion">
+      <div class="exhibit-content">
+        <h2>The Future of Technology</h2>
+        <p>
+          Sa huli, malinaw sa akin na ang AI ay hindi kaaway kundi isang powerful tool na puwedeng makatulong sa pag-aaral at pag-develop ng skills. 
+          Ang mahalaga ay gamitin ito bilang suporta at hindi pamalit sa sariling effort. 
+        </p>
+        <p>
+          Through AI, I learned to adapt, think critically, and solve problems more effectively while still valuing my own skills and creativity. Bilang future tech professional, mahalaga na maging open-minded sa AI at handang gamitin ito sa mas advanced na paraan sa hinaharap.
+        </p>
+      </div>
+      <div class="exhibit-img">
+        <img src="../assets/images/conclusion ai.jpg" alt="Future tech and AI">
+      </div>
+    </section>
+
+    <hr>
+
+    <div class="author">
+      <p><strong>ANDRADA, TROY WINTER T.</strong><br>ITAD</p>
+    </div>
+
+    <div class="pagination">
+      <a href="../index.html" class="back-btn">← Home</a>
+      <span class="page-indicator">Blog 1 of 3</span>
+      <a href="./blog-2.html" class="back-btn">Next Blog →</a>
+    </div>
+
+    <footer>Made by Troy Winter Andrada</footer>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Glimpse Into My Life | Biography</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('../assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    margin-top: 15px;
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Layout & Headers --- */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 5%;
+}
+.page-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+.page-header h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 8px;
+    color: #fff;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #1a1a1a;
+    margin: 60px 0;
+}
+
+/* --- Exhibition Rows (Biography Sections) --- */
+.exhibit-row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 120px;
+}
+.exhibit-row.alternate {
+    grid-template-columns: 1.2fr 1fr;
+}
+.exhibit-content h2 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 15px;
+}
+.exhibit-content p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Framed Imagery */
+.exhibit-img img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border: 12px solid #111;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    filter: sepia(30%) grayscale(20%);
+    transition: filter 0.6s ease, transform 0.6s ease;
+}
+.exhibit-row:hover .exhibit-img img {
+    filter: sepia(0%) grayscale(0%);
+    transform: scale(1.02);
+}
+
+/* --- Preformatted & Author Sections --- */
+pre {
+    background: #0c0c0c;
+    border: 1px solid #222;
+    padding: 30px;
+    color: #c9a050;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 2px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    margin: 40px 0;
+}
+.author {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 60px;
+}
+.author p strong {
+    color: #c9a050;
+    font-weight: 400;
+}
+
+/* --- Buttons --- */
+.back-btn {
+    display: inline-block;
+    padding: 16px 35px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.back-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 60px;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 1024px) {
+    .exhibit-row, .exhibit-row.alternate { 
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+    }
+    .exhibit-row.alternate .exhibit-content { order: 2; }
+    .exhibit-row.alternate .exhibit-img { order: 1; }
+    .exhibit-img img { height: 400px; }
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+}
+</style>
+</head>
+
+<body>
+<nav>
+<ul>
+<li class="logo">STORIES WRITTEN IN CODE</li>
+<li><a href="../index.html">Home</a></li>
+<li><a href="../biography/biography-1.html">Biography</a></li>
+<li><a href="../photo-dump/index.html">Photo Dump</a></li>
+<li class="dropdown">
+<span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+<div class="dropdown-content">
+<a href="../blog-stories/blog-1.html">Blog 1</a>
+<a href="../blog-stories/blog-2.html">Blog 2</a>
+<a href="../blog-stories/blog-3.html">Blog 3</a>
+</div>
+</li>
+<li class="dropdown">
+<span class="dropdown-toggle"><a href="#media">Media</a></span>
+<div class="dropdown-content">
+<a href="../my-beats.html">My Beats</a>
+<a href="../my-film-movies.html">My Films</a>
+<a href="../my-film-tv-shows.html">My Shows</a>
+</div>
+</li>
+<li><a href="../dream-places.html">Dream Places</a></li>
+<li><a href="../bucket-list.html">Bucket List</a></li>
+</ul>
+</nav>
+  
+  <div class="container">
+
+    <header class="page-header">
+      <h1>A GLIMPSE INTO MY LIFE</h1>
+    </header>
+
+    <hr>
+
+    <section class="exhibit-row" id="childhood">
+      <div class="exhibit-img">
+        <img src="../assets/images/childhood.jpg" alt="Childhood photo">
+      </div>
+      <div class="exhibit-content">
+        <h2>Childhood</h2>
+        <p>
+          I’m Troy Winter T. Andrada, born on April 1, 2007, sa Antipolo, Rizal. For the first four years, we lived there bago kami lumipat sa Cainta, Rizal. 
+          I’m the youngest sa anim naming magkakapatid five boys at isang girl. Since bata pa ako, curious na talaga ako sa paligid ko. 
+          I remember my first day sa Summerville when I was four years old medyo kinakabahan pero excited makilala ang classmates ko. My parents always encouraged me to do my best.
+        </p>
+        <p>
+          Laro laro kami ng siblings ko sa labas araw araw. I loved riding my bike around the neighborhood, playing hide and seek, at patintero. 
+          I also helped my mom sa kitchen. Holidays and birthdays were special kasi buo ang pamilya. I even won a small award noong first grade, 
+          and my teachers always said na curious at eager to learn ako. Childhood ko was full of fun, love, and simple joys that shaped who I am today.
+        </p>
+      </div>
+    </section>
+
+    <section class="exhibit-row alternate" id="teenage">
+      <div class="exhibit-content">
+        <h2>Teenage Years</h2>
+        <p>
+          My teenage years were unique, especially during the pandemic. I experienced my first crush during high school, but because everything was online, we slowly lost connection.
+          From that experience, natutunan ko ang patience at letting go. After that, I focused more on academics and chose the STEM strand in Senior High because I loved math and science.
+        </p>
+        <p>
+          Despite online learning challenges, Senior High was still fun. I ranked in the top 10 of my school and learned time management through online projects and activities. 
+          I bonded with classmates through games and study sessions. Those years taught me discipline, responsibility, and confidence preparing me for college life.
+        </p>
+      </div>
+      <div class="exhibit-img">
+        <img src="../assets/images/teenage3.jpg" alt="Teenage photo">
+      </div>
+    </section>
+
+    <section class="exhibit-row" id="college">
+      <div class="exhibit-img">
+        <img src="../assets/images/college.jpg" alt="Troy at college">
+      </div>
+      <div class="exhibit-content">
+        <h2>College</h2>
+        <p>
+          I started college at the University of the East Manila when I was only 17. I felt young compared to my classmates. At first, I wanted to become a doctor like my mom, but my dad encouraged me to take IT. 
+          I agreed and now I’m happy with my choice. College life is very different from Senior High. Subjects are more focused, and projects are mostly computer-related.
+        </p>
+        <p>
+          College taught me time management, teamwork, and self-discipline. I discovered new software tools and began enjoying programming, networking, and computer systems.
+          Some days are tough, but every challenge teaches me patience and persistence. Overall, college life is challenging, fun, and truly transforming.
+        </p>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <pre>
+ANDRADA, TROY WINTER T.
+ITAD
+      </pre>
+    </section>
+
+
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="../index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <footer>Made by Troy Winter Andrada</footer>
+
+  </div>
+</body>
+</html>
