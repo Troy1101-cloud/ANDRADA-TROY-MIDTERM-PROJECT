@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dream Places to Visit & Bucket List</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 60px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Content & Map Section --- */
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+.map-container {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    padding: 60px 5%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.map-title {
+    font-size: 2rem;
+    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.map-intro {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+/* --- Responsive Collage Wrapper --- */
+.collage-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #222;
+    padding: 10px;
+    background: #000;
+}
+.collage-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(0.85) contrast(1.1);
+    transition: filter 0.5s ease;
+}
+.collage-img:hover {
+    filter: brightness(1) contrast(1.05);
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .map-container { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="./biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="./blog-stories/blog-1.html">Blog 1</a>
+          <a href="./blog-stories/blog-2.html">Blog 2</a>
+          <a href="./blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="./my-beats.html">My Beats</a>
+          <a href="./my-film-movies.html">My Films</a>
+          <a href="./my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="./dream-places.html" style="color: #fff;">Dream Places</a></li>
+      <li><a href="./bucket-list.html">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="header">
+    <h1>The Dream Destinations</h1>
+    <p>Coordinates of My Future Adventures</p>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="map-container">
+      <h2 class="map-title">Explore The Map</h2>
+      <p class="map-intro">Click on any destination in the visual collage below to uncover my travel aspirations.</p>
+      
+      <div class="collage-wrapper">
+        <img src="assets/images/ri.jpg" alt="Dream Destinations Collage" usemap="#dreammap" class="collage-img" id="collage-img">
+        
+        <map name="dreammap" id="dreammap">
+          <area shape="rect" coords="210,576,990,1024" data-original-coords="210,576,990,1024" href="dream-spain.html" alt="Barcelona Spain" title="Click to explore Barcelona, Spain">
+
+          <area shape="rect" coords="0,0,600,800" data-original-coords="0,0,600,800" href="dream-amsterdam.html" alt="Amsterdam" title="Click to explore Amsterdam">
+          <area shape="rect" coords="600,0,1200,800" data-original-coords="600,0,1200,800" href="dream-egypt.html" alt="Egypt" title="Click to explore Egypt">
+          <area shape="rect" coords="0,800,600,1600" data-original-coords="0,800,600,1600" href="dream-grandcanyon.html" alt="Grand Canyon" title="Click to explore Grand Canyon">
+          <area shape="rect" coords="600,800,1200,1600" data-original-coords="600,800,1200,1600" href="dream-paris.html" alt="Paris France" title="Click to explore Paris, France">
+        </map>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Troy Winter Andrada | Dream Travels Collection
+  </footer>
+
+  <script>
+    // --- Responsive Image Map Script ---
+    function resizeMapAreas() {
+      const img = document.getElementById('collage-img');
+      const areas = document.querySelectorAll('area');
+      
+      // Original width of the image when you plotted the coordinates
+      const originalWidth = 1200; 
+      
+      if (!img || img.clientWidth === 0) return;
+      
+      // Calculate the scale ratio
+      const scale = img.clientWidth / originalWidth;
+
+      areas.forEach(area => {
+        // Grab the original coords stored in our custom data attribute
+        const originalCoords = area.getAttribute('data-original-coords').split(',');
+        
+        // Multiply each coordinate by the scale factor
+        const scaledCoords = originalCoords.map(coord => Math.round(Number(coord) * scale));
+        
+        // Apply the new coordinates
+        area.setAttribute('coords', scaledCoords.join(','));
+      });
+    }
+
+    // Run when the page loads
+    window.addEventListener('load', resizeMapAreas);
+    // Run whenever the window is resized
+    window.addEventListener('resize', resizeMapAreas);
+  </script>
+</body>
+</html>

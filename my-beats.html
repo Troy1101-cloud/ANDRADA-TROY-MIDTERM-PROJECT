@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Beats — The Portal</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color-scheme: dark; /* Makes default <audio> players dark mode! */
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+nav.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- App View Logic --- */
+.portal-wrapper, .detail-wrapper {
+    display: none;
+    animation: fadeIn 0.6s ease forwards;
+}
+.portal-wrapper.active, .detail-wrapper.active {
+    display: block;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Portal Header --- */
+.portal-header {
+    text-align: center;
+    margin: 100px auto 80px;
+    max-width: 1000px;
+}
+.portal-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+}
+.portal-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    margin-top: 10px;
+}
+
+/* --- Portal Grid (The Galleries) --- */
+.portal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 100px;
+    padding: 0 5%;
+}
+.artist-card {
+    cursor: pointer;
+    perspective: 1000px;
+}
+.artist-frame {
+    border: 1px solid #222;
+    background: #0f0f0f;
+    padding: 60px 30px;
+    text-align: center;
+    transition: all 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.artist-frame:hover {
+    border-color: #c9a050;
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(201, 160, 80, 0.1);
+}
+.artist-image {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+.artist-frame:hover .artist-image {
+    filter: grayscale(0%);
+}
+.artist-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.artist-sublabel {
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* --- Detail View --- */
+.detail-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 5% 100px;
+}
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 40px;
+}
+.detail-image {
+    font-size: 5rem;
+    background: #111;
+    border: 1px solid #333;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.detail-info h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.detail-subtitle {
+    color: #c9a050;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+.detail-bio {
+    color: #999;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* --- Songs List --- */
+.album-section {
+    margin-bottom: 60px;
+}
+.album-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.songs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.song-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: transparent;
+    border: 1px solid #1a1a1a;
+    transition: all 0.3s ease;
+    gap: 20px;
+}
+.song-card:hover {
+    border-color: #333;
+    background: #0d0d0d;
+}
+.song-number {
+    font-family: 'Playfair Display', serif;
+    color: #c9a050;
+    font-size: 1.2rem;
+    font-style: italic;
+    min-width: 30px;
+}
+.song-title {
+    flex: 1;
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+.song-artist {
+  color: #c9a050;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 150px;
+  text-align: right;
+}
+audio {
+    height: 35px;
+    outline: none;
+    border-radius: 0;
+}
+
+/* --- Buttons --- */
+.page-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    border-top: 1px solid #222;
+    padding-top: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.back-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+    transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+.back-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding-top: 40px;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .detail-header { flex-direction: column; text-align: center; gap: 20px; }
+    .song-card { flex-wrap: wrap; text-align: center; justify-content: center; }
+    .song-title { flex: none; width: 100%; }
+    .song-artist { text-align: center; width: 100%; margin-bottom: 10px; }
+    .page-nav { justify-content: center; }
+}
+</style>
+</head>
+<body>
+  <nav id="mainNav">
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="./blog-stories/blog-1.html">Blog 1</a>
+          <a href="./blog-stories/blog-2.html">Blog 2</a>
+          <a href="./blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="./my-beats.html">My Beats</a>
+          <a href="./my-film-movies.html">My Films</a>
+          <a href="./my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="javascript:void(0)" onclick="showPortal()">My Beats</a></li>
+      <li><a href="my-film-movies.html">Movies</a></li>
+      <li><a href="./dream-places.html">Dream Places</a></li>
+      <li><a href="./bucket-list.html">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="portal-wrapper active" id="portalView">
+    <div class="portal-header">
+      <h1 class="portal-title">MY BEATS</h1>
+      <p class="portal-subtitle">The Curated Exhibition</p>
+    </div>
+
+    <div class="portal-grid">
+      <div class="artist-card" onclick="showDetail('arthur-nery')">
+        <div class="artist-frame">
+          <div class="artist-image">🎤</div>
+          <div class="artist-name">OPM</div>
+          <div class="artist-sublabel">Original Collection</div>
+        </div>
+      </div>
+
+      <div class="artist-card" onclick="showDetail('flow-g')">
+        <div class="artist-frame">
+          <div class="artist-image">🎸</div>
+          <div class="artist-name">R&B / Pop</div>
+          <div class="artist-sublabel">Global Collection</div>
+        </div>
+      </div>
+
+      <div class="artist-card" onclick="showDetail('personal-collection')">
+        <div class="artist-frame">
+          <div class="artist-image">🎧</div>
+          <div class="artist-name">Personal</div>
+          <div class="artist-sublabel">Private Favorites</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 TROY WINTER PAGE</p>
+    </footer>
+  </div>
+
+  <div class="detail-wrapper" id="detailView">
+    <div id="topNav" style="margin-bottom: 40px; text-align: center;"></div>
+    
+    <div class="detail-header">
+      <div class="detail-image" id="detailImageEmoji">🎤</div>
+      <div class="detail-info">
+        <h2 id="detailName">Artist Name</h2>
+        <p class="detail-subtitle" id="detailSubtitle">Genre / Description</p>
+        <p class="detail-bio" id="detailBio">Biography goes here...</p>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div id="albumsContainer"></div>
+    </div>
+
+    <footer>
+      <p>© 2026 TROY WINTER PAGE</p>
+    </footer>
+  </div>
+
+  <script>
+    const artistsData = {
+      'arthur-nery': {
+        name: 'OPM',
+        folder: 'opm',
+        subtitle: 'Original Pilipino Music — OPM Collection',
+        emoji: '🎤',
+        bio: 'A curated selection of Original Pilipino Music (OPM). Add your MP3 files to the /mp3/opm folder to make them playable.',
+        albums: [
+          {
+            title: 'Pagsisimula',
+            songs: [
+              { number: 'I', title: 'Sandal Mosana', artist: 'Arthur Nery', file: 'sandalmosana.mp3' },
+              { number: 'II', title: 'Sino Ba Naman', artist: 'Arthur Nery', file: 'sinobanaman.mp3' },
+              { number: 'III', title: 'Isa Lang', artist: 'Arthur Nery', file: 'original sound - sonatalyrics2_musicaldown.com_1771128223.mp3' },
+              { number: 'IV', title: 'Malay Ko', artist: 'Daniel Padilla', file: 'original sound - sonatalyrics2_musicaldown.com_1771128301.mp3' },
+              { number: 'V', title: 'Tulad Ng Hangin', artist: 'Yno', file: 'original sound - sonatalyrics2_musicaldown.com_1771128372.mp3' },
+              { number: 'VI', title: 'Panaginip', artist: 'Nicole', file: 'original sound - sonatalyrics2_musicaldown.com_1771128591.mp3' },
+              { number: 'VII', title: 'Paninindigan', artist: 'Ben-Ben', file: 'original sound - sonatalyrics2_musicaldown.com_1771128621.mp3' }
+            ]
+          }
+        ]
+      },
+      'flow-g': {
+        name: 'R&B / Pop',
+        folder: 'rnb-pop',
+        subtitle: 'R&B / Pop Collection',
+        emoji: '🎸',
+        bio: 'A curated collection of contemporary R&B and Pop tracks.',
+        albums: [
+          {
+            title: 'Global Sounds',
+            songs: [
+              { number: 'I', title: 'Love Yourself', artist: 'Justin Bieber', file: 'love yourself_musicaldown.com_1771133699.mp3' },
+              { number: 'II', title: 'The 30th', artist: 'Billie Eilish', file: 'original sound - colorsquads_0_musicaldown.com_1771133942.mp3' },
+              { number: 'III', title: 'Beauty And Beat', artist: 'Justin Bieber', file: 'original sound - kyy.liryc_musicaldown.com_1771133719.mp3' },
+              { number: 'IV', title: 'Without Me', artist: 'Halsey', file: 'original sound - song_lyrics207_musicaldown.com_1771133557.mp3' },
+              { number: 'V', title: 'Im not The Only One', artist: 'Sam Smith', file: 'original sound - y2k_slowed_musicaldown.com_1771135557.mp3' },
+              { number: 'VI', title: 'Sorry', artist: 'Justin Bieber', file: 'original sound - _muzicaholix_musicaldown.com_1771133755.mp3' }
+            ]
+          }
+        ]
+      },
+      'personal-collection': {
+        name: 'Personal Favorites',
+        folder: 'personal',
+        subtitle: 'Chill & Instrumental Picks',
+        emoji: '🎧',
+        bio: 'A small collection of personal tracks and favorites. Place MP3 files in /mp3/personal to make these playable.',
+        albums: [
+          {
+            title: 'Personal Dump',
+            songs: [
+              { number: 'I', title: 'Lay me Down', artist: 'Sam Smith', file: 'original sound - sonatalyrics2_musicaldown.com_1771128455.mp3' },
+              { number: 'II', title: 'Here with me', artist: 'D4VD', file: 'original sound - sonatalyrics2_musicaldown.com_1771128521.mp3' },
+              { number: 'III', title: 'Balisong', artist: 'River Maya', file: 'original sound - sonatalyrics2_musicaldown.com_1771128554.mp3' },
+              { number: 'IV', title: 'Nangangamba', artist: 'Zach Tabudlo', file: 'original sound - sonatalyrics2_musicaldown.com_1771129379.mp3' },
+              { number: 'V', title: 'Close to you', artist: 'Carpenters', file: 'original sound - sonatalyrics2_musicaldown.com_1771129427.mp3' },
+              { number: 'VI', title: 'Starting Over Again', artist: 'Natalie Cole', file: 'original sound - sonatalyrics2_musicaldown.com_1771129465.mp3' },
+              { number: 'VII', title: 'When i was your man', artist: 'Bruno Mars', file: 'original sound - sonatalyrics2_musicaldown.com_1771129493.mp3' },
+              { number: 'VIII', title: 'Lips Of An Angel', artist: 'Hinder', file: 'original sound - sonatalyrics2_musicaldown.com_1771129514.mp3' },
+              { number: 'IX', title: 'On Bended Knee', artist: 'Boyz II Men', file: 'original sound - sonatalyrics2_musicaldown.com_1771129555.mp3' },
+              { number: 'X', title: 'Teka Lang', artist: 'Emman', file: 'original sound - sonatalyrics2_musicaldown.com_1771129602.mp3' },
+              { number: 'XI', title: 'Ikaw At Ako', artist: 'Johnoy Danao', file: 'original sound - sonatalyrics2_musicaldown.com_1771129631.mp3' }
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentArtistId = null;
+    let previousArtistId = null;
+
+    function showDetail(artistId) {
+      previousArtistId = currentArtistId;
+      currentArtistId = artistId;
+      const artist = artistsData[artistId];
+
+      document.getElementById('portalView').classList.remove('active');
+      document.getElementById('detailView').classList.add('active');
+
+      document.getElementById('detailImageEmoji').textContent = artist.emoji;
+      document.getElementById('detailName').textContent = artist.name;
+      document.getElementById('detailSubtitle').textContent = artist.subtitle;
+      document.getElementById('detailBio').textContent = artist.bio;
+
+      let html = '';
+      artist.albums.forEach(album => {
+        html += `<div class="album-section">
+          <h3 class="album-title">${album.title}</h3>
+          <div class="songs-grid">`;
+
+        album.songs.forEach(song => {
+          html += `<div class="song-card">
+            <div class="song-number">${song.number}</div>
+            <div class="song-title">${song.title}</div>
+            <div class="song-artist">${song.artist}</div>
+            <audio controls>
+              <source src="./mp3/${artist.folder}/${song.file}" type="audio/mpeg">
+            </audio>
+          </div>`;
+        });
+
+        html += `</div></div>`;
+      });
+
+      const nextArtist = getNextArtist(artistId);
+      html += `<div class="page-nav">
+        <button class="back-btn" onclick="goBack()">← Portal</button>
+        <button class="back-btn" onclick="showDetail('${nextArtist}')">Next Exhibit →</button>
+        <button class="back-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to Top ↑</button>
+      </div>`;
+      
+      if (artistId === 'personal-collection' || artistId === 'arthur-nery' || artistId === 'flow-g') {
+        document.getElementById('topNav').innerHTML = '<button class="back-btn" onclick="goHome()">Home Gallery</button>';
+      } else {
+        document.getElementById('topNav').innerHTML = '';
+      }
+      
+      document.getElementById('albumsContainer').innerHTML = html;
+      
+      // Ensure only one audio element plays at a time
+      (function attachAudioExclusivity(){
+        const audios = document.querySelectorAll('#albumsContainer audio');
+        audios.forEach(a => {
+          a.addEventListener('play', () => {
+            audios.forEach(other => { if (other !== a) other.pause(); });
+          });
+        });
+      })();
+      
+      document.getElementById('mainNav').classList.add('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function showPortal() {
+      document.getElementById('detailView').classList.remove('active');
+      document.getElementById('portalView').classList.add('active');
+      document.getElementById('topNav').innerHTML = '';
+      document.getElementById('mainNav').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function goBack() {
+      showPortal(); // Always go back to portal for better UX in this layout
+    }
+
+    function goHome() {
+      window.location.href = './index.html';
+    }
+
+    function getNextArtist(currentId) {
+      const artists = ['arthur-nery', 'flow-g', 'personal-collection'];
+      const currentIndex = artists.indexOf(currentId);
+      return artists[(currentIndex + 1) % artists.length];
+    }
+
+    window.addEventListener('DOMContentLoaded', () => showPortal());
+  </script>
+</body>
+</html>

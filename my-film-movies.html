@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Film Movies — Troy's Favorites</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 60px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Category Filters --- */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 80px;
+    padding: 0 5%;
+}
+.category-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+}
+.category-btn:hover, .category-btn.active {
+    color: #c9a050;
+    border-bottom: 1px solid #c9a050;
+}
+
+/* --- Movies Grid --- */
+.movies-wrapper {
+    /* Set to 1000px so the single column video doesn't become overwhelmingly wide on huge screens */
+    max-width: 1000px; 
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+.movies-grid {
+    display: grid;
+    /* CHANGED: Forces exactly 1 column */
+    grid-template-columns: 1fr;
+    gap: 80px;
+}
+
+/* --- Movie Card --- */
+.movie-card {
+    display: none; /* Hidden by default, toggled by JS */
+    background: rgba(13, 13, 13, 0.85);
+    backdrop-filter: blur(5px);
+    border: 1px solid #1a1a1a;
+    padding: 40px; 
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    flex-direction: column;
+}
+.movie-card.active {
+    display: flex;
+    animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.movie-card:hover {
+    border-color: #c9a050;
+    transform: translateY(-5px);
+}
+
+/* --- Responsive Video Frame --- */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid #222;
+    background: #000;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(40%);
+    transition: filter 0.4s ease;
+}
+.movie-card:hover .video-container iframe {
+    filter: grayscale(0%);
+}
+
+/* --- Movie Details --- */
+.movie-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 15px;
+}
+.movie-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; 
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.movie-year {
+    color: #c9a050;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+.movie-meta {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.movie-meta strong {
+    color: #bbb;
+    font-weight: 600;
+}
+.movie-synopsis {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: #aaa;
+    line-height: 1.8;
+    text-align: justify;
+    flex-grow: 1;
+}
+
+/* --- Scroll To Top Button --- */
+#scrollTopBtn {
+    display: none; 
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 99;
+    font-size: 1.5rem;
+    background-color: rgba(15, 15, 15, 0.8);
+    color: #c9a050;
+    border: 1px solid #c9a050;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+#scrollTopBtn:hover {
+    background-color: #c9a050;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .movie-header-row { flex-direction: column; gap: 5px; }
+    .movie-card { padding: 20px; } 
+    #scrollTopBtn { bottom: 20px; right: 20px; padding: 10px 15px; font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="./blog-stories/blog-1.html">Blog 1</a>
+          <a href="./blog-stories/blog-2.html">Blog 2</a>
+          <a href="./blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="./my-beats.html">My Beats</a>
+          <a href="./my-film-movies.html">My Films</a>
+          <a href="./my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="./dream-places.html">Dream Places</a></li>
+      <li><a href="./bucket-list.html">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="header">
+    <h1>The Cinema Room</h1>
+    <p>An Exhibition of My Favorite Films</p>
+  </div>
+
+  <div class="category-tabs">
+    <button class="category-btn active" data-category="all">All Exhibitions</button>
+    <button class="category-btn" data-category="action">Action</button>
+    <button class="category-btn" data-category="fantasy">Fantasy</button>
+    <button class="category-btn" data-category="anime">Anime</button>
+    <button class="category-btn" data-category="horror">Horror</button>
+    <button class="category-btn" data-category="romance">Romance</button>
+  </div>
+
+  <div class="movies-wrapper">
+    <div class="movies-grid">
+      
+      <div class="movie-card active" data-category="all action">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/TtuG6yJQCz0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">Avengers: Endgame</div>
+            <div class="movie-year">2019</div>
+          </div>
+          <div class="movie-meta"><strong>Directors:</strong> Anthony Russo, Joe Russo</div>
+          <div class="movie-meta"><strong>Cast:</strong> Robert Downey Jr., Chris Evans, Scarlett Johansson</div>
+          <div class="movie-synopsis">
+            After the devastating events of Infinity War, the Avengers assemble once more to help reverse Thanos' actions and restore balance to the universe.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all action fantasy">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/5BNXYGwL0C4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">Thor: Ragnarok</div>
+            <div class="movie-year">2017</div>
+          </div>
+          <div class="movie-meta"><strong>Director:</strong> Taika Waititi</div>
+          <div class="movie-meta"><strong>Cast:</strong> Chris Hemsworth, Cate Blanchett, Mark Ruffalo</div>
+          <div class="movie-synopsis">
+            Imprisoned on the other side of the universe, Thor must escape and race against time to prevent the destruction of his home world and the end of all civilization on Asgard.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all fantasy">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/oKiYuIsPxYk" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">How to Train Your Dragon</div>
+            <div class="movie-year">2010</div>
+          </div>
+          <div class="movie-meta"><strong>Directors:</strong> Dean DeBlois, Chris Sanders</div>
+          <div class="movie-meta"><strong>Cast:</strong> Jay Baruchel, America Ferrera</div>
+          <div class="movie-synopsis">
+            A young Viking reluctant to kill dragons befriends and flies a dangerous dragon's offspring, challenging his society's traditions and bridging two worlds through an unlikely friendship.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all anime action">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/ATJYac_dORw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">Demon Slayer: Mugen Train</div>
+            <div class="movie-year">2020</div>
+          </div>
+          <div class="movie-meta"><strong>Director:</strong> Haruo Sotozaki</div>
+          <div class="movie-meta"><strong>Cast:</strong> Natsuki Hanae, Daiki Yamashita</div>
+          <div class="movie-synopsis">
+            Tanjiro and his companions face off against a powerful Upper Moon Demon aboard the Mugen Train, pushing their abilities to the limit in this emotional and action-packed adventure.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all anime action">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/YwPVKV0jEvc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">One Piece Film: Gold</div>
+            <div class="movie-year">2016</div>
+          </div>
+          <div class="movie-meta"><strong>Director:</strong> Hiroaki Miyamoto</div>
+          <div class="movie-meta"><strong>Cast:</strong> Mayumi Tanaka, Akemi Okamura</div>
+          <div class="movie-synopsis">
+            Luffy and his crew embark on a thrilling adventure in Gran Tesoro, a massive floating city made of gold, where they face treacherous challenges and a formidable enemy seeking revenge.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all horror">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/k10ETZ41q5o" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">The Conjuring</div>
+            <div class="movie-year">2013</div>
+          </div>
+          <div class="movie-meta"><strong>Director:</strong> James Wan</div>
+          <div class="movie-meta"><strong>Cast:</strong> Vera Farmiga, Patrick Wilson, Lili Taylor</div>
+          <div class="movie-synopsis">
+            Paranormal investigators work to help a family plagued by a dark spirit in their farmhouse. A terrifying encounter based on true events that will keep you on the edge of your seat.
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card active" data-category="all horror">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/V6wWKNij_1M" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="movie-info">
+          <div class="movie-header-row">
+            <div class="movie-title">Hereditary</div>
+            <div class="movie-year">2018</div>
+          </div>
+          <div class="movie-meta"><strong>Director:</strong> Ari Aster</div>
+          <div class="movie-meta"><strong>Cast:</strong> Toni Collette, Gabriel Byrne</div>
+          <div class="movie-synopsis">
+            When the matriarch of a family dies, her children begin experiencing terrifying supernatural phenomena. A psychological horror masterpiece exploring family trauma and dark secrets.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Troy Winter Andrada | The Cinema Room</p>
+  </footer>
+
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // --- Category Filter Logic ---
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Update active button styling
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        // Filter logic
+        const category = this.dataset.category;
+        document.querySelectorAll('.movie-card').forEach(card => {
+          const cardCategories = card.dataset.category.split(' ');
+          
+          if (category === 'all' || cardCategories.includes(category)) {
+            card.classList.remove('active');
+            setTimeout(() => {
+              card.classList.add('active');
+            }, 10);
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // --- Scroll to Top Logic ---
+    const topBtn = document.getElementById("scrollTopBtn");
+
+    // When the user scrolls down 300px from the top of the document, show the button
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
+      }
+    };
+
+    // When the user clicks on the button, scroll to the top of the document
+    topBtn.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  </script>
+</body>
+</html>

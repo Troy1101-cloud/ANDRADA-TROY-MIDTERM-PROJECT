@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paris, France - Dream Destination</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('../assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover, nav a.active { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 40px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Content Wrapper & Back Link --- */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+.back-link {
+    display: inline-block;
+    color: #c9a050;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    transition: color 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+.back-link:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+/* --- Destination Image --- */
+.destination-image-container {
+    width: 100%;
+    max-height: 500px;
+    overflow: hidden;
+    border: 1px solid #1a1a1a;
+    margin-bottom: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    display: block;
+}
+.destination-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.85);
+    transition: filter 0.8s ease, transform 0.8s ease;
+}
+.destination-image-container:hover .destination-image {
+    filter: brightness(1);
+    transform: scale(1.02);
+}
+
+/* --- Content Sections --- */
+.section {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    padding: 50px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.section-title {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 15px;
+    letter-spacing: 2px;
+}
+.section-content p {
+    color: #888;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    text-align: justify;
+}
+.section-content ul {
+    list-style: none;
+}
+.section-content li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 20px;
+    color: #888;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+.section-content li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #c9a050;
+    font-size: 0.9rem;
+}
+.section-content strong {
+    color: #e0e0e0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .section { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="./biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="../blog-stories/blog-1.html">Blog 1</a>
+          <a href="../blog-stories/blog-2.html">Blog 2</a>
+          <a href="../blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="../my-beats.html">My Beats</a>
+          <a href="../my-film-movies.html">My Films</a>
+          <a href="../my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="dream-places.html" class="active">Dream Places</a></li>
+      <li><a href="bucket-list.html">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="header">
+    <h1>Paris, France</h1>
+    <p>The City of Light and Timeless Romance</p>
+  </div>
+
+  <div class="content-wrapper">
+    <a href="dream-places.html" class="back-link">&larr; Back to Map</a>
+
+    <a href="dream-places.html" class="destination-image-container">
+      <img src="assets/images/paris.jpg" alt="Paris France" class="destination-image">
+    </a>
+
+    <div class="section">
+      <h2 class="section-title">Why I'd Want to Visit</h2>
+      <div class="section-content">
+        <p>Paris is the epitome of elegance, culture, and romance. The Eiffel Tower stands as an iconic symbol of human achievement and engineering brilliance, known worldwide as the most recognizable monument on Earth. To see it up close, and especially to visit it at night when it sparkles with thousands of lights, would be a dream come true. Paris embodies everything romantic—from the charming street-side cafés to the world-class museums, historic streets, and the Seine River flowing through the city. It's a destination where every corner tells a story and art exists in every form.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">What I Want to See</h2>
+      <div class="section-content">
+        <ul>
+          <li><strong>The Eiffel Tower:</strong> Stand beneath this iron lattice monument and gaze up in wonder, appreciating the engineering feat completed in 1889. </li>
+          <li><strong>Louvre Museum:</strong> Encounter the world's most famous art collection, including the Mona Lisa, Venus de Milo, and thousands of other masterpieces.</li>
+          <li><strong>Notre-Dame Cathedral:</strong> Admire this architectural wonder with its stunning Gothic design, flying buttresses, and historic stained glass windows. </li>
+          <li><strong>Arc de Triomphe:</strong> Walk through this monument honoring those who fought for France, enjoying views of the Parisian streets radiating from it.</li>
+          <li><strong>Sacré-Cœur Basilica:</strong> Climb to this white-domed cathedral perched atop Montmartre for panoramic city views and spiritual reflection.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">What I Want to Experience</h2>
+      <div class="section-content">
+        <ul>
+          <li><strong>Eiffel Tower Dining:</strong> Ascend the tower and dine at one of its renowned restaurants, enjoying breathtaking panoramic views of Paris while savoring fine French cuisine.</li>
+          <li><strong>Sunset & Sparkle Show:</strong> Position myself at strategic locations to watch the Eiffel Tower sparkle with thousands of lights after sunset—a magical display that repeats each night.</li>
+          <li><strong>Seine River Cruise:</strong> Float along the Seine at twilight, passing under ancient bridges and illuminated monuments while sipping champagne.</li>
+          <li><strong>Café Culture:</strong> Sit at corner cafés with a café au lait or wine, people-watching and soaking in the Parisian atmosphere that inspired artists for centuries.</li>
+          <li><strong>Stroll Through Le Marais:</strong> Wander the historic neighborhood's charming streets, discovering boutique shops, galleries, and hidden courtyards.</li>
+          <li><strong>Versailles Palace:</strong> Explore the opulent palace of Louis XIV, wandering through gilded halls and perfectly manicured gardens that showcase absolute power and beauty.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Troy Winter Andrada | Dream Travels Collection
+  </footer>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Film TV Shows — Troy's Favorites</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 60px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Category Filters --- */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 80px;
+    padding: 0 5%;
+}
+.category-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+}
+.category-btn:hover, .category-btn.active {
+    color: #c9a050;
+    border-bottom: 1px solid #c9a050;
+}
+
+/* --- Shows Grid --- */
+.shows-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+.shows-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 80px;
+}
+
+/* --- Show Card --- */
+.show-card {
+    display: none; /* Hidden by default, toggled by JS */
+    background: rgba(13, 13, 13, 0.85);
+    backdrop-filter: blur(5px);
+    border: 1px solid #1a1a1a;
+    padding: 40px;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    flex-direction: column;
+    cursor: pointer; /* Suggests the whole card is clickable based on your JS */
+}
+.show-card.active {
+    display: flex;
+    animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.show-card:hover {
+    border-color: #c9a050;
+    transform: translateY(-5px);
+}
+
+/* --- Responsive Video Frame --- */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid #222;
+    background: #000;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(40%);
+    transition: filter 0.4s ease;
+}
+.show-card:hover .video-container iframe {
+    filter: grayscale(0%);
+}
+
+/* --- Show Details --- */
+.show-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 15px;
+}
+.show-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.show-year {
+    color: #c9a050;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+.show-meta {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.show-meta strong {
+    color: #bbb;
+    font-weight: 600;
+}
+.show-synopsis {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: #aaa;
+    line-height: 1.8;
+    text-align: justify;
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+/* --- Custom Links --- */
+.video-link {
+    display: inline-block;
+    color: #c9a050;
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+    align-self: flex-start;
+}
+.video-link:hover {
+    border-color: #c9a050;
+}
+
+/* --- Scroll To Top Button --- */
+#scrollTopBtn {
+    display: none; 
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 99;
+    font-size: 1.5rem;
+    background-color: rgba(15, 15, 15, 0.8);
+    color: #c9a050;
+    border: 1px solid #c9a050;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+#scrollTopBtn:hover {
+    background-color: #c9a050;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .show-header-row { flex-direction: column; gap: 5px; }
+    .show-card { padding: 20px; } 
+    #scrollTopBtn { bottom: 20px; right: 20px; padding: 10px 15px; font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="./blog-stories/blog-1.html">Blog 1</a>
+          <a href="./blog-stories/blog-2.html">Blog 2</a>
+          <a href="./blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="./my-beats.html">My Beats</a>
+          <a href="./my-film-movies.html">My Films</a>
+          <a href="./my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="dream-places.html">Dream Places</a></li>
+      <li><a href="bucket-list.html">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="header">
+    <h1>The Television Room</h1>
+    <p>An Exhibition of My Favorite Series</p>
+  </div>
+
+  <div class="category-tabs">
+    <button class="category-btn active" data-category="all">All Shows</button>
+    <button class="category-btn" data-category="marvel">Marvel</button>
+    <button class="category-btn" data-category="anime">Anime</button>
+    <button class="category-btn" data-category="kdrama">K-Drama</button>
+    <button class="category-btn" data-category="fantasy-horror">Fantasy & Horror</button>
+    <button class="category-btn" data-category="horror">Horror</button>
+  </div>
+
+  <div class="shows-wrapper">
+    <div class="shows-grid">
+      
+      <div class="show-card active" data-category="all marvel" data-trailer="https://www.youtube.com/results?search_query=Loki+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/nW948Va-l10" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Loki</div>
+            <div class="show-year">2021 - Present</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Michael Waldron</div>
+          <div class="show-meta"><strong>Cast:</strong> Tom Hiddleston, Sophia Di Martino, Owen Wilson</div>
+          <div class="show-synopsis">
+            After being captured by the Time Variance Authority, the God of Mischief Loki is forced to help fix the timeline and encounters alternate versions of himself across dimensions.
+          </div>
+          <a href="https://www.youtube.com/watch?v=nW948Va-l10" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all marvel fantasy-horror" data-trailer="https://www.youtube.com/results?search_query=Marvel+Zombies+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/twHYF506-9Y" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Marvel Zombies</div>
+            <div class="show-year">2024</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Bryan Andrews</div>
+          <div class="show-meta"><strong>Cast:</strong> Hailee Steinfeld, Cobie Smulders, Lake Bell</div>
+          <div class="show-synopsis">
+            In an alternate universe where an infection turns heroes into zombies, survivors must navigate a world where the Avengers have become the greatest threat to humanity's existence.
+          </div>
+          <a href="https://www.youtube.com/watch?v=twHYF506-9Y" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all kdrama" data-trailer="https://www.youtube.com/results?search_query=Moving+Korean+drama+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/d_SFsZEZAy4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Moving</div>
+            <div class="show-year">2023</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Park In-je</div>
+          <div class="show-meta"><strong>Cast:</strong> Han Hyo-joo, Jo In-sung, Park Sung-woong</div>
+          <div class="show-synopsis">
+            In a world where ordinary people suddenly gain superpowers, a group of friends must navigate their new abilities while dealing with mysterious forces that want to control them.
+          </div>
+          <a href="https://www.youtube.com/watch?v=d_SFsZEZAy4" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all kdrama fantasy" data-trailer="https://www.youtube.com/results?search_query=Legend+of+the+Blue+Sea+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/G_jt3EwBMwU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Legend of the Blue Sea</div>
+            <div class="show-year">2016 - 2017</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Park Ji-won</div>
+          <div class="show-meta"><strong>Cast:</strong> Lee Min-ho, Jun Ji-hyun, Lee Kwang-soo</div>
+          <div class="show-synopsis">
+            A con artist falls in love with a mermaid who surfaces in search of her lost love, leading to a romantic and magical adventure that transcends worlds and time.
+          </div>
+          <a href="https://www.youtube.com/watch?v=G_jt3EwBMwU" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all anime fantasy-horror" data-trailer="https://www.youtube.com/results?search_query=Arcane+League+of+Legends+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/fXmAurh012s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Arcane: League of Legends</div>
+            <div class="show-year">2021 - Present</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Christian Linke, Alex Yee</div>
+          <div class="show-meta"><strong>Cast:</strong> Hailee Steinfeld, Ella Purnell, Kevin Alejandro</div>
+          <div class="show-synopsis">
+            In the utopian city of Piltover and the oppressed city of Zaun, two sisters find themselves on opposing sides of a conflict fueled by technology, magic, and class struggles.
+          </div>
+          <a href="https://www.youtube.com/watch?v=fXmAurh012s" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all anime" data-trailer="https://www.youtube.com/results?search_query=Attack+on+Titan+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/LV-nazLVmgo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Attack on Titan</div>
+            <div class="show-year">2013 - 2023</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Hajime Isayama</div>
+          <div class="show-meta"><strong>Cast:</strong> Yuki Kaji, Yui Ishikawa, Josh Grelle</div>
+          <div class="show-synopsis">
+            As titanic humanoid creatures attack humanity's last refuge, soldiers discover shocking truths about the world, leading to a mind-bending political and existential conflict.
+          </div>
+          <a href="https://www.youtube.com/watch?v=LV-nazLVmgo" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all anime" data-trailer="https://www.youtube.com/results?search_query=Your+Name+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/kUG_FGh_Es8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Your Name</div>
+            <div class="show-year">2016</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Makoto Shinkai</div>
+          <div class="show-meta"><strong>Cast:</strong> Ryūnosuke Kamiki, Mone Kamishiraishi</div>
+          <div class="show-synopsis">
+            A boy and girl inexplicably swap bodies across time and distance, leading them to discover each other and a supernatural connection that transcends the boundaries of their worlds.
+          </div>
+          <a href="https://www.youtube.com/watch?v=kUG_FGh_Es8" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all anime fantasy-horror" data-trailer="https://www.youtube.com/results?search_query=Jujutsu+Kaisen+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/0tFr9rSrKZ0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Jujutsu Kaisen</div>
+            <div class="show-year">2020 - Present</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Gege Akutami</div>
+          <div class="show-meta"><strong>Cast:</strong> Yuma Uchida, Asako Nishikawa</div>
+          <div class="show-synopsis">
+            A high school student swallows a cursed finger and joins a secret society of sorcerers to fight supernatural creatures and curses hidden in the shadows of the world.
+          </div>
+          <a href="https://www.youtube.com/watch?v=0tFr9rSrKZ0" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all horror" data-trailer="https://www.youtube.com/results?search_query=Stranger+Things+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/PssKpzB0Ah0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Stranger Things</div>
+            <div class="show-year">2016 - 2022</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> The Duffer Brothers</div>
+          <div class="show-meta"><strong>Cast:</strong> Winona Ryder, David Harbour, Millie Bobby Brown</div>
+          <div class="show-synopsis">
+            When a young boy goes missing in the 1980s, a group of kids encounter government conspiracy and terrifying supernatural creatures lurking in an alternate dimension.
+          </div>
+          <a href="https://www.youtube.com/watch?v=PssKpzB0Ah0" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all horror" data-trailer="https://www.youtube.com/results?search_query=American+Horror+Story+clip">
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/reP8VFF3KHU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">American Horror Story</div>
+            <div class="show-year">2011 - Present</div>
+          </div>
+          <div class="show-meta"><strong>Creator:</strong> Ryan Murphy, Brad Falchuk</div>
+          <div class="show-meta"><strong>Cast:</strong> Sarah Paulson, Jessica Lange, Evan Peters</div>
+          <div class="show-synopsis">
+            An anthology series that explores different horror scenarios each season, from haunted houses to psychological terror. A masterclass in American gothic horror.
+          </div>
+          <a href="https://www.youtube.com/watch?v=reP8VFF3KHU" class="video-link">Watch Trailer &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Troy Winter Andrada | The Television Room Collection</p>
+  </footer>
+
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // --- Category Filtering with Animation ---
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.dataset.category;
+        document.querySelectorAll('.show-card').forEach(card => {
+          const cardCategories = card.dataset.category.split(' ');
+          if (category === 'all' || cardCategories.includes(category)) {
+            card.classList.remove('active');
+            // Re-trigger CSS fade-in animation
+            setTimeout(() => {
+              card.classList.add('active');
+            }, 10);
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // --- Card Click Handler (Ignores inner links and iframe clicks) ---
+    document.querySelectorAll('.show-card').forEach(card => {
+      const url = card.dataset.trailer;
+      if (!url) return;
+      card.addEventListener('click', (e) => {
+        // Prevents opening a new tab if you just click the YouTube play button or the custom link
+        if (e.target.closest('a') || e.target.closest('iframe')) return; 
+        window.open(url, '_blank');
+      });
+    });
+
+    // --- Chaining YouTube Links Script ---
+    (function connectShowLinks(){
+      const links = Array.from(document.querySelectorAll('.video-link'));
+      const cards = Array.from(document.querySelectorAll('.show-card'));
+      if (!links.length || !cards.length) return;
+
+      function getYouTubeId(url){
+        try{
+          const u = new URL(url);
+          if (u.hostname.includes('youtube.com')){
+            if (u.pathname === '/watch') return u.searchParams.get('v');
+            if (u.pathname === '/watch_videos') return u.searchParams.get('video_ids')?.split(',')[0] || null;
+            if (u.pathname === '/results') return null;
+          }
+          if (u.hostname === 'youtu.be') return u.pathname.slice(1);
+        } catch(e){ }
+        return null;
+      }
+
+      links.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const href = link.href;
+          const parentCard = link.closest('.show-card');
+          const idx = cards.indexOf(parentCard);
+          const next = cards[(idx + 1) % cards.length];
+          const nextUrl = next && next.dataset && next.dataset.trailer;
+
+          const id1 = getYouTubeId(href);
+          const id2 = getYouTubeId(nextUrl || '');
+          if (id1 && id2) {
+            const combined = `https://www.youtube.com/watch_videos?video_ids=${id1},${id2}`;
+            window.open(combined, '_blank');
+            return;
+          }
+
+          // fallback: open the clicked link in a new tab
+          window.open(href, '_blank');
+        });
+      });
+    })();
+
+    // --- Scroll to Top Logic ---
+    const topBtn = document.getElementById("scrollTopBtn");
+
+    // When the user scrolls down 300px from the top of the document, show the button
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
+      }
+    };
+
+    // When the user clicks on the button, scroll to the top of the document
+    topBtn.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  </script>
+</body>
+</html>

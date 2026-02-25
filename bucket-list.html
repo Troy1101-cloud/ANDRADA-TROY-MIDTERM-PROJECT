@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Epic Quest — Troy's Bucket List</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 60px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Category Filters --- */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 80px;
+    padding: 0 5%;
+}
+.category-btn {
+    background: none;
+    border: none;
+    color: #bbb;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+}
+.category-btn:hover, .category-btn.active {
+    color: #c9a050;
+    border-bottom: 1px solid #c9a050;
+}
+
+/* --- Shows Grid (Adapted for Bucket List) --- */
+.shows-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+.shows-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 80px;
+}
+
+/* --- Card Styling --- */
+.show-card {
+    display: none; 
+    background: rgba(13, 13, 13, 0.85);
+    backdrop-filter: blur(5px);
+    border: 1px solid #1a1a1a;
+    padding: 40px;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    flex-direction: column;
+}
+.show-card.active {
+    display: flex;
+    animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.show-card:hover {
+    border-color: #c9a050;
+    transform: translateY(-5px);
+}
+
+/* --- Responsive Image Frame (Replaced Video) --- */
+.image-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid #222;
+    background: #000;
+}
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(60%);
+    transition: filter 0.5s ease, transform 0.5s ease;
+}
+.show-card:hover .image-container img {
+    filter: grayscale(0%);
+    transform: scale(1.03); /* Slight zoom on hover */
+}
+
+/* --- Details --- */
+.show-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 15px;
+}
+.show-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.show-year {
+    color: #c9a050;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+.show-meta {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.show-meta strong {
+    color: #bbb;
+    font-weight: 600;
+}
+.show-synopsis {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: #aaa;
+    line-height: 1.8;
+    text-align: justify;
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+/* --- Scroll To Top Button --- */
+#scrollTopBtn {
+    display: none; 
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 99;
+    font-size: 1.5rem;
+    background-color: rgba(15, 15, 15, 0.8);
+    color: #c9a050;
+    border: 1px solid #c9a050;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+#scrollTopBtn:hover {
+    background-color: #c9a050;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+    .show-header-row { flex-direction: column; gap: 5px; }
+    .show-card { padding: 20px; } 
+    #scrollTopBtn { bottom: 20px; right: 20px; padding: 10px 15px; font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="logo">STORIES WRITTEN IN CODE</li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="biography/biography-1.html">Biography</a></li>
+      <li><a href="./photo-dump/index.html">Photo Dump</a></li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+        <div class="dropdown-content">
+          <a href="./blog-stories/blog-1.html">Blog 1</a>
+          <a href="./blog-stories/blog-2.html">Blog 2</a>
+          <a href="./blog-stories/blog-3.html">Blog 3</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <span class="dropdown-toggle"><a href="#media">Media</a></span>
+        <div class="dropdown-content">
+          <a href="./my-beats.html">My Beats</a>
+          <a href="./my-film-movies.html">My Films</a>
+          <a href="./my-film-tv-shows.html">My Shows</a>
+        </div>
+      </li>
+      <li><a href="dream-places.html">Dream Places</a></li>
+      <li><a href="bucket-list.html" style="color:#fff;">Bucket List</a></li>
+    </ul>
+  </nav>
+
+  <div class="header">
+    <h1>The Epic Quest</h1>
+    <p>Dreams, Goals, and Future Adventures</p>
+  </div>
+
+  <div class="category-tabs">
+    <button class="category-btn active" data-category="all">All Goals</button>
+    <button class="category-btn" data-category="travel">Travel & Romance</button>
+    <button class="category-btn" data-category="adrenaline">Adrenaline</button>
+    <button class="category-btn" data-category="gaming">Gaming</button>
+    <button class="category-btn" data-category="lifestyle">Lifestyle</button>
+  </div>
+
+  <div class="shows-wrapper">
+    <div class="shows-grid">
+      
+      <div class="show-card active" data-category="all travel">
+        <div class="image-container">
+          <img src="assets/images/pizza in italy.jpg" alt="Authentic Italian Pizza">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Taste of Authenticity</div>
+            <div class="show-year">Italy</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Travel & Romance</div>
+          <div class="show-synopsis">
+            I'd love to try a real Neapolitan Margherita in Italy. It seems simple but everyone says it's magical, and I want to find out why for myself.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all travel">
+        <div class="image-container">
+          <img src="assets/images/propose to my girlfriend in italy.jpg" alt="Proposing in Italy">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">The Ultimate Question</div>
+            <div class="show-year">Italy</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Travel & Romance</div>
+          <div class="show-synopsis">
+            I want to propose to my girlfriend in Italy because it's super romantic and feels like the kind of story we'll tell forever.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all adrenaline">
+        <div class="image-container">
+          <img src="assets/images/ski.jpg" alt="Skiing in Austria">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Alpine Rush</div>
+            <div class="show-year">Austria</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Adrenaline</div>
+          <div class="show-synopsis">
+            Skiing the Austrian Alps sounds amazing. I want the challenge, the views, and those calm mornings after a full day on the slopes.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all adrenaline">
+        <div class="image-container">
+          <img src="assets/images/bungee jumping.jpg" alt="Bungee Jumping">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">The Leap of Faith</div>
+            <div class="show-year">Adrenaline</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Adrenaline</div>
+          <div class="show-synopsis">
+            I want to go bungee jumping to prove to myself I can do scary stuff and still laugh about it afterward.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all adrenaline">
+        <div class="image-container">
+          <img src="assets/images/skydive.jpg" alt="Skydiving">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Touch The Sky</div>
+            <div class="show-year">Adrenaline</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Adrenaline</div>
+          <div class="show-synopsis">
+            Skydiving looks terrifying but also life changing. I want that crazy view and the kind of memory you never forget.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all lifestyle adrenaline">
+        <div class="image-container">
+          <img src="assets/images/snowman.jpg" alt="Snowman">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Childhood Joy</div>
+            <div class="show-year">Winter</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Lifestyle</div>
+          <div class="show-synopsis">
+            I want to build the perfect snowman on a quiet morning. It's silly, but those little happy moments really stick with you.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all gaming">
+        <div class="image-container">
+          <img src="assets/images/league-of-legends-faker.jpg" alt="Esports Arena">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">Meet The GOAT</div>
+            <div class="show-year">Esports</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Gaming</div>
+          <div class="show-synopsis">
+            Meeting Faker would be insane as a fan I'd love to see how he thinks and get inspired by someone at the top of their game.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all gaming">
+        <div class="image-container">
+          <img src="assets/images/league of legends worlds.jpg" alt="Gaming Setup">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">The Ultimate Arena</div>
+            <div class="show-year">Worlds</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Gaming</div>
+          <div class="show-synopsis">
+            Going to Worlds would be so hype. I want to feel the crowd, watch the best players live, and geek out with other fans.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all lifestyle">
+        <div class="image-container">
+          <img src="assets/images/billiard table.jpg" alt="Billiard Table">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">The Ultimate Hangout</div>
+            <div class="show-year">Home</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Lifestyle</div>
+          <div class="show-synopsis">
+            Getting a pro billiard table would make future hangouts better games with friends, snacks, and good vibes every weekend.
+          </div>
+        </div>
+      </div>
+
+      <div class="show-card active" data-category="all lifestyle">
+        <div class="image-container">
+          <img src="assets/images/aston martin.jpg" alt="Aston Martin">
+        </div>
+        <div class="show-info">
+          <div class="show-header-row">
+            <div class="show-title">The Dream Ride</div>
+            <div class="show-year">Future</div>
+          </div>
+          <div class="show-meta"><strong>Category:</strong> Lifestyle</div>
+          <div class="show-synopsis">
+            Saving up for an Aston Martin is a dream goal. It's kind of a reward for hard work and honestly would be so much fun to drive.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Troy Winter Andrada | The Epic Quest Collection</p>
+  </footer>
+
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // --- Category Filtering with Animation ---
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.dataset.category;
+        document.querySelectorAll('.show-card').forEach(card => {
+          const cardCategories = card.dataset.category.split(' ');
+          if (category === 'all' || cardCategories.includes(category)) {
+            card.classList.remove('active');
+            // Re-trigger CSS fade-in animation
+            setTimeout(() => {
+              card.classList.add('active');
+            }, 10);
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // --- Scroll to Top Logic ---
+    const topBtn = document.getElementById("scrollTopBtn");
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "block";
+      } else {
+        topBtn.style.display = "none";
+      }
+    };
+
+    topBtn.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  </script>
+</body>
+</html>
