@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Dump - Troy Winter Andrada</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+/* --- Global Museum Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #000 url('../assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e0e0e0;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, nav .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+}
+
+/* --- Dark Elegant Navbar --- */
+nav {
+    background: rgba(8, 8, 8, 0.95);
+    padding: 25px 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+nav ul {
+    list-style: none;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+nav a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+nav a:hover, nav a.active { color: #fff; }
+nav .logo {
+    font-size: 1.5rem;
+    margin-right: auto;
+    color: #fff;
+    letter-spacing: 4px;
+}
+
+/* --- Dropdown Styling --- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-toggle::after {
+    content: '▼';
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+}
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(-180deg);
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #0f0f0f;
+    min-width: 180px;
+    border: 1px solid #222;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+    display: block;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+.dropdown-content a:hover { background: #1a1a1a; color: #c9a050; }
+.dropdown:hover .dropdown-content { display: block; }
+
+/* --- Page Header --- */
+.header {
+    text-align: center;
+    margin: 100px auto 40px;
+    max-width: 800px;
+    padding: 0 5%;
+}
+.header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #c9a050;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* --- Albums Grid --- */
+.albums-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 60px auto 100px;
+    padding: 0 5%;
+}
+
+/* --- Album Cover Card Style --- */
+.album-card {
+    background: #0f0f0f;
+    border: 1px solid #1a1a1a;
+    padding: 15px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.album-card:hover {
+    border-color: #c9a050;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(201, 160, 80, 0.1);
+}
+
+.image-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.album-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.album-card:hover img {
+    transform: scale(1.05);
+}
+
+.album-card h2 {
+    color: #c9a050;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    color: #444;
+    font-size: 0.85rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-top: 1px solid #111;
+}
+
+/* --- Mobile Responsiveness --- */
+@media(max-width: 900px) {
+    nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+    nav .logo { margin: 0 auto 10px auto; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <ul>
+    <li class="logo">STORIES WRITTEN IN CODE</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../biography/biography-1.html">Biography</a></li>
+    <li><a href="../photo-dump/index.html" class="active">Photo Dump</a></li>
+    <li class="dropdown">
+      <span class="dropdown-toggle"><a href="#blog">Blog</a></span>
+      <div class="dropdown-content">
+        <a href="../blog-stories/blog-1.html">Blog 1</a>
+        <a href="../blog-stories/blog-2.html">Blog 2</a>
+        <a href="../blog-stories/blog-3.html">Blog 3</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <span class="dropdown-toggle"><a href="#media">Media</a></span>
+      <div class="dropdown-content">
+        <a href="../my-beats.html">My Beats</a>
+        <a href="../my-film-movies.html">My Films</a>
+        <a href="../my-film-tv-shows.html">My Shows</a>
+      </div>
+    </li>
+    <li><a href="../dream-places.html">Dream Places</a></li>
+    <li><a href="../bucket-list.html">Bucket List</a></li>
+  </ul>
+</nav>
+
+<div class="header">
+  <h1>Photo Archive</h1>
+  <p>A Curated Visual Collection</p>
+</div>
+
+<div class="albums-grid">
+    <a class="album-card" href="places-album.html">
+        <div class="image-container">
+            <img src="../places/1.jpg" alt="Places Album">
+        </div>
+        <h2>Places</h2>
+    </a>
+
+    <a class="album-card" href="food-album.html">
+        <div class="image-container">
+            <img src="../food/14.jpg" alt="Food Album">
+        </div>
+        <h2>Food</h2>
+    </a>
+
+    <a class="album-card" href="me-album.html">
+        <div class="image-container">
+            <img src="../me/11.jpg" alt="Me Album">
+        </div>
+        <h2>Me</h2>
+    </a>
+
+    <a class="album-card" href="friends-album.html">
+        <div class="image-container">
+            <img src="../friends/10.jpg" alt="Friends Album">
+        </div>
+        <h2>Friends</h2>
+    </a>
+
+    <a class="album-card" href="girlfriend-album.html">
+        <div class="image-container">
+            <img src="../girlfriend/24.jpg" alt="Girlfriend Album">
+        </div>
+        <h2>Girlfriend</h2>
+    </a>
+</div>
+
+<footer>
+  &copy; 2026 Troy Winter Andrada | Curated Memories
+</footer>
+
+</body>
+</html>

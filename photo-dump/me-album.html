@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Me Album — The Exhibition</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+    /* --- Global Museum Style --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000 url('./assets/images/dark-texture-background-1ww1corpzr0l0sji.jpg') no-repeat center center;
+      background-attachment: fixed;
+      background-size: cover;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    h1, .album-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* --- Header Section --- */
+    .portal-header {
+      text-align: center;
+      margin: 80px auto 60px;
+      max-width: 1000px;
+    }
+    .portal-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .portal-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #c9a050;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    /* --- Gallery Grid --- */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+
+    /* --- Exhibit Card Style --- */
+    .me-card {
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
+      padding: 15px;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .me-card a {
+      display: block;
+      overflow: hidden; /* Contains the zoom effect */
+    }
+
+    .me-card:hover {
+      border-color: #c9a050;
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(201, 160, 80, 0.1);
+    }
+
+    .me-card img {
+      width: 100%;
+      height: 350px; /* Taller height for a more "Self Portrait" focus */
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .me-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* --- Navigation Buttons --- */
+    .nav-container {
+      text-align: center;
+      margin: 80px 0;
+      padding-top: 40px;
+      border-top: 1px solid #222;
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: #444;
+      font-size: 0.85rem;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    @media(max-width: 600px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="portal-header">
+    <h1 class="portal-title">ME</h1>
+    <p class="portal-subtitle">A Self Portrait Collection</p>
+  </header>
+
+  <div class="gallery">
+    <div class="me-card">
+      <a href="../Me/11.jpg" target="albumImageTab">
+        <img src="../Me/11.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/4.jpg" target="albumImageTab">
+        <img src="../Me/4.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/15.jpg" target="albumImageTab">
+        <img src="../Me/15.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/17.jpg" target="albumImageTab">
+        <img src="../Me/17.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/18.jpg" target="albumImageTab">
+        <img src="../Me/18.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/22.jpg" target="albumImageTab">
+        <img src="../Me/22.jpg" alt="Me Photo">
+      </a>
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/4.jpg" target="albumImageTab">
+        <img src="../Me/4.jpg" alt="Me Photo">
+      </a>  
+    </div>
+
+    <div class="me-card">
+      <a href="../Me/5.jpg" target="albumImageTab">
+        <img src="../Me/5.jpg" alt="Me Photo">
+      </a>
+    </div>
+  </div>
+
+  <div class="nav-container">
+    <a class="back-btn" href="index.html">← Back to Albums</a>
+  </div>
+
+  <footer>
+    <p>© 2026 TROY WINTER PAGE</p>
+  </footer>
+
+</body>
+</html>
